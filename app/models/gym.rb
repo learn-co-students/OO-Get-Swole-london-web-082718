@@ -1,16 +1,54 @@
+require 'pry'
+
 class Gym
- ALL = []
+
 
   attr_reader :name
 
+  @@all  = []
+
   def initialize(name)
     @name = name
-    ALL << self
+    @@all << self
 
   end
 
   def self.all
-    ALL
+    @@all
   end
+
+  def memberships
+    Membership.all.select do |membership|
+      membership.gym_type == self
+    end
+  end
+
+  def lifters
+    self.memberships.map do |lifter|
+      lifter.member_name
+    end
+    # get memberships of a specific gym
+    # return an array of lifters (unique)
+
+  end
+
+  def lifter_names
+    self.memberships.map do |lifter|
+      lifter.member_name.name
+    end
+  end
+
+def lift_total_for_gym
+  lift_sum = 0
+  self.memberships.map do |lifter|
+    lift_sum += lifter.member_name.lift_total
+  end
+  return lift_sum
+end
+
+
+  #  iterate over each membership for this gym....
+
+
 
 end
